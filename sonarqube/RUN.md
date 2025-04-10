@@ -1,4 +1,4 @@
-### To run should
+### To install this chart you should
 
 ```bash
 export monitoringPasscode=""
