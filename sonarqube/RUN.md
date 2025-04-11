@@ -1,9 +1,9 @@
 ### To install this chart you should
 
 ```bash
-export monitoringPasscode=""
+export MONITORING_PASSCODE=""
 ```
 
 ```bash
-helm upgrade --install -n sonarqube sonarqube . --set monitoringPasscode=$MONITORING_PASSCODE
+helm upgrade --install --create-namespace -n sonarqube sonarqube . --set monitoringPasscode=$MONITORING_PASSCODE
 ```
