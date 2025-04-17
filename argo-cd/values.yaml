@@ -42,7 +42,7 @@ crds:
 global:
   # -- Default domain used by all components
   ## Used for ingresses, certificates, SSO, notifications, etc.
-  domain: argocd.ddragos.com
+  domain: microk8s.local
 
   # -- Runtime class name for all components
   runtimeClassName: ""
@@ -283,7 +283,7 @@ configs:
     ## NOTE: This value should be set when you generate params by other means as it changes ports used by ingress template.
     server.insecure: true
     # -- Value for base href in index.html. Used if Argo CD is running behind reverse proxy under subpath different from /
-    server.basehref: /
+    server.basehref: /argocd
     # -- Used if Argo CD is running behind reverse proxy under subpath different from /
     server.rootpath: ''
     # -- Directory path that contains additional static assets
@@ -2232,7 +2232,8 @@ server:
     labels: {}
     # -- Additional ingress annotations
     ## Ref: https://argo-cd.readthedocs.io/en/stable/operator-manual/ingress/#option-1-ssl-passthrough
-    annotations: {}
+    annotations:
+      nginx.ingress.kubernetes.io/rewrite-target: /$2
       # nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
       # nginx.ingress.kubernetes.io/ssl-passthrough: "true"
 
@@ -2241,10 +2242,10 @@ server:
 
     # -- Argo CD server hostname
     # @default -- `""` (defaults to global.domain)
-    hostname: "argocd.ddragos.com"
+    hostname: "microk8s.local"
 
     # -- The path to Argo CD server
-    path: /
+    path: /argocd(/|$)(.*)
 
     # -- Ingress path type. One of `Exact`, `Prefix` or `ImplementationSpecific`
     pathType: Prefix

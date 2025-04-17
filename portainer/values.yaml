@@ -67,7 +67,7 @@ ingress:
     # nginx.ingress.kubernetes.io/backend-protocol: HTTPS
   # Note: Hosts and paths are of type array
   hosts:
-    - host: portainer.ddragos.com
+    - host: microk8s.local
       paths:
         - path: "/"
   tls: []
