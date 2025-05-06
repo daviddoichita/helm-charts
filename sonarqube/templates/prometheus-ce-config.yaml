@@ -3,8 +3,12 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: {{ template "sonarqube.fullname" . }}-prometheus-ce-config
-  labels: {{- include "sonarqube.labels" . | nindent 4 }}
+  labels:
+    app: {{ template "sonarqube.name" . }}
+    chart: {{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
 data:
   prometheus-ce-config.yaml: |-
-    {{- default .Values.prometheusExporter.config .Values.prometheusExporter.ceConfig  | toYaml | nindent 4 }}
+{{ .Values.prometheusExporter.ceConfig | default .Values.prometheusExporter.config | toYaml | indent 8 }}
 {{- end }}

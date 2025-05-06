@@ -1,8 +1,5 @@
 {{- define "ingress-nginx.params" -}}
 - /nginx-ingress-controller
-{{- if not .Values.controller.enableAnnotationValidations }}
-- --enable-annotation-validation=false
-{{- end }}
 {{- if .Values.defaultBackend.enabled }}
 - --default-backend-service=$(POD_NAMESPACE)/{{ include "ingress-nginx.defaultBackend.fullname" . }}
 {{- end }}
@@ -13,11 +10,8 @@
 - --publish-service={{ template "ingress-nginx.controller.publishServicePath" . }}-internal
 {{- end }}
 {{- end }}
-- --election-id={{ include "ingress-nginx.controller.electionID" . }}
+- --election-id={{ .Values.controller.electionID }}
 - --controller-class={{ .Values.controller.ingressClassResource.controllerValue }}
-{{- if .Values.controller.ingressClass }}
-- --ingress-class={{ .Values.controller.ingressClass }}
-{{- end }}
 - --configmap={{ default "$(POD_NAMESPACE)" .Values.controller.configMapNamespace }}/{{ include "ingress-nginx.controller.fullname" . }}
 {{- if .Values.tcp }}
 - --tcp-services-configmap={{ default "$(POD_NAMESPACE)" .Values.controller.tcp.configMapNamespace }}/{{ include "ingress-nginx.fullname" . }}-tcp
@@ -29,7 +23,7 @@
 - --watch-namespace={{ default "$(POD_NAMESPACE)" .Values.controller.scope.namespace }}
 {{- end }}
 {{- if and (not .Values.controller.scope.enabled) .Values.controller.scope.namespaceSelector }}
-- --watch-namespace-selector={{ .Values.controller.scope.namespaceSelector }}
+- --watch-namespace-selector={{ default "" .Values.controller.scope.namespaceSelector }}
 {{- end }}
 {{- if and .Values.controller.reportNodeInternalIp .Values.controller.hostNetwork }}
 - --report-node-internal-ip-address={{ .Values.controller.reportNodeInternalIp }}
@@ -53,18 +47,6 @@
 {{- end }}
 {{- if .Values.controller.watchIngressWithoutClass }}
 - --watch-ingress-without-class=true
-{{- end }}
-{{- if .Values.controller.metrics.enabled }}
-- --enable-metrics={{ .Values.controller.metrics.enabled }}
-{{- end }}
-{{- if .Values.controller.enableTopologyAwareRouting }}
-- --enable-topology-aware-routing=true
-{{- end }}
-{{- if .Values.controller.disableLeaderElection }}
-- --disable-leader-election=true
-{{- end }}
-{{- if .Values.controller.electionTTL }}
-- --election-ttl={{ .Values.controller.electionTTL }}
 {{- end }}
 {{- range $key, $value := .Values.controller.extraArgs }}
 {{- /* Accept keys without values or with false as value */}}

@@ -1,178 +1,22 @@
 # SonarQube Chart Changelog
 All changes to this chart will be documented in this file.
 
-## [2025.2.0]
-* Update Chart's version to 2025.2.0
-* Update ingress-nginx subchart to 4.12.1
-* Upgrade SonarQube Server to 2025.2.0
+## [8.0.5]
+* Update SonarQube to 9.9.5
 
-## [2025.1.0]
-* Update Chart's version to 2025.1.0
-* Upgrade SonarQube Server to 2025.1.0
-* Upgrade SonarQube Community Build to 25.1.0.102122
-* Update ingress-nginx subchart to 4.11.3
-* Support Kubernetes v1.32
-* Remove the default passcode provided with `monitoringPasscode`
-* Support Openshift v4.17
-* Improves editions and versions setting for sonarqube chart
+## [8.0.4]
+* Update SonarQube to 9.9.4
 
-## [10.8.1]
-* Update Chart's version to 10.8.1
-* Remove immutable labels selector `app.kubernetes.io/name` and `app.kubernetes.io/version` as it breaks upgrades
-* set `image.tag` empty in default value file, `image.tag` is dynamically set according to the `edition` and `community` fields. user-defined have precedence
+## [8.0.3]
+* Update SonarQube to 9.9.3
 
-## [10.8.0]
-* Update Chart's version to 10.8.0
-* Upgrade SonarQube Server to 10.8.0
-* Release SonarQube Community Build 24.12
-* Support the installation of the Oracle JDBC Driver
-* Support Kubernetes v1.31
-* Deprecate the `community` value for the `edition` parameter
-* Introduce the `community.enabled` and `community.buildNumber` parameters for SonarQube Community Build
-* Deprecate the default value of `image.tag` in favor of an empty string
-* Update the Chart's icon with the SonarQube Server logo
-* Set `app.kubernetes.io/name` and `app.kubernetes.io/version` as selector labels
-* Support Gateway on different namespace in HTTPRoute
-* Change `ingress.ingressClassName` default, set it to `nginx` if `nginx.enabled` or `ingress-nginx.enabled`
-* Ensure that ConfigMap resources are not created for `initFS` and `initSysctl` if not needed
-* Ensure the Pod will stop at `init` stage if init_sysctl.sh failed to modify kernel parameters
-* Replace the example images in initContainers, initSysctl and initFs from `busybox:1.36` to `ubuntu:24.04`, which are commented out by default
-* Make the `automountServiceAccountToken` configurable with `serviceAccount.automountToken` in PodSpec
-* Deprecate `sonarqubeFolder`, `jdbcOverwrite.jdbcPassword` and `terminationGracePeriodSeconds`
-* Deprecate `deploymentStrategy.type`, which will be set to `Recreate`
-* Deprecate `account`, `curlContainerImage`, `adminJobAnnotations`
-* Deprecate the StatefulSet deployment type
+## [8.0.2]
+* Fix missing `bitnami/minideb-extras` image during helm tests
+* Update SonarQube to 9.9.2
 
-## [10.7.0]
-* Update Chart's version to 10.7.0
-* Upgrade SonarQube to 10.7.0
-* Support Kubernetes v1.30
-* Upgrade ingress-nginx dependency to 4.10.1
-* Deprecate `jdbcOverwrite.enable` in favor of `jdbcOverwrite.enabled`
-* Fix regression on env valuesFrom in the new STS template
-* Fix a typo in the new common STS template
-* Enable the setup of ReadOnlyRootFilesystem in the security contexts
-* Support basic chart installation on Openshift
-* Include remaining Route settings
-* Fix networkPolicy.additionalPolicys typo
-* Support install-plugin and prometheusExporter proxy variables in secret
-* Support GatewayAPI HttpRoute
-* Support additional labels in the PodMonitor
-* Support Openshift SCCv2 by default when Openshift.enabled=true
-* Deprecate Openshift.createSCC
-* Support additional CA Certificate as ConfigMap instead of Secret only
-* Changed default value for caCerts.image
-* Fix openshift change-admin-password-hook Job SecurityContext failure
-* Support SONAR_OPENSHIFT telemetry env_var
-* Update helm chart repo path in sources
-* Changed SONAR_OPENSHIFT to IS_HELM_OPENSHIFT_ENABLED
-* Remove socketTimeout from jdbcOverwrite.jdbcUrl's default value
-* Refactor Route to be subparameter of OpenShift
-* Make OpenShift.createSCC false by default
-* Deprecate peristence.volumes and persistence.mounts in favor or extraVolumes and extraVolumeMounts
-* Ensure kubernetes.io/version label is smaller than 63 chars
+## [8.0.1]
+* Update SonarQube to 9.9.1
 
-## [10.6.0]
-* Update SonarQube to 10.6.0
-* Update Chart's version to 10.6.0
-* Fix the env-var templating when sourcing from secrets
-* Fix the postgresql chart's repository link
-* Add support for overriding liveness/readiness probe logic
-* Use a common template for Deployment and StatefulSet
-
-## [10.5.0]
-* Upgrade SonarQube to 10.5.0
-* Update Chart's version to 10.5.0
-* Update nginx-ingress-controller dependency to version 4.9.1
-* Set `automountServiceAccountToken` to false in pod's specifications
-* Update default `resources` values matching better default Xmx and Xms of the SonarQube processes.
-* Make `ephemeral-storage` resource's limits and requests configurable for the SonarQube container
-* Set memory and cpu limits for the test container
-* Deprecate nginx.enabled in favor of ingress-nginx.enabled, to match with subchart config block
-* Deprecate `prometheusMonitoring.podMonitor.namespace`
-* Instantiate `monitoring-web` and `monitoring-ce` endpoints when the `prometheusExporter` is enabled
-* Take `sonarWebContext` into account for the `PodMonitor` path
-* Fix duplicated env_var in Pods causing deployment issue (`SONAR_WEB_CONTEXT`,`SONAR_WEB_JAVAOPTS`,`SONAR_CE_JAVAOPTS`)
-
-## [10.4.0]
-* Upgrade SonarQube to 10.4.0
-* Update Chart's version to 10.4.0
-* Improve the description of deprecated `jvmOpts` and `jvmCeOpts` values
-* Run the initSysctl init-container as root to prevent 'permission denied' issues
-* Add revisionHistoryLimit configuration for SonarQube application Deployment ReplicaSets & StatefulSets
-* Update the security contexts to use root as group ID
-* Fix empty ingress annotations in values
-* Add support for dual stack and IPv6 single stack clusters in readiness/liveness probes
-
-## [10.3.0]
-* Upgrade SonarQube to 10.3.0
-* Update Chart's version to 10.3.0
-* Update default images to the latest versions
-* Remove the nginx-proxy-body annotation when nginx is disabled
-* Enable post-upgrade in the change-admin-password hook
-* Update default ContainerSecurityContext, InitContainerSecurityContext and postgresql.securityContext to match restricted podSecurityStandard
-* Update initFs defaut securityContext to match baseline podSecurityStandard
-* Update Elasticsearch.configureNode to false by default after 3 year deprecation
-* Fix wrong condition on initSysctl feature
-* Update default image of initContainers to sonarqube image, allowing for faster loading time and less external images needed
-* Support Kubernetes v1.28
-* Avoid duplicate SONAR_WEB_SYSTEMPASSCODE secrets
-* Deprecate embedded PostgreSQL
-* Update nginx-ingress-controller dependency to version 4.8.3, please carefully read the changelog of this new major version.
-
-## [10.2.0]
-* Update SonarQube to 10.2.0
-* Update Chart's version to 10.2.0
-* Update curl image to 8.2.0
-* `readinessProbe.sonarWebContext`, `startupProbe.sonarWebContext`, `livenessProbe.sonarWebContext`, and `account.sonarWebContext` are deprecated, please use `sonarWebContext` at the value top level.
-* Updates ingress-nginx dependency to 4.7.1
-* Fixes broken table on README
-
-## [10.1.0]
-* Update SonarQube to 10.1.0
-* Support Kubernetes v1.27 while dropping v1.23
-* Changed default test process to wget, using sonarqube image as default
-* Update Chart's version to 10.1.0
-* Fix liveness probe to detect when a failure occurs.
-
-## [10.0.0]
-* Update SonarQube to 10.0.0
-* Helm chart versioning will now follow the SonarQube product versioning
-
-## [9.5.1]
-* Make `jvmOpts` and `jvmCeOpts` not override env vars and sonar properties
-
-## [9.5.0]
-* Add helm-chart-sonarqube as chart source
-
-## [9.4.2]
-* Fixed unsupported wget parameter `--proxy off` with `--no-proxy`
-
-## [9.4.1]
-* Fix install_plugins.sh not deleting previously installed plugins
-
-## [9.4.0]
-* Added support for `extraVolumes` and `extraVolumeMounts` in sonar pod.
-
-## [9.3.1]
-* Clarify doc for custom cacert secret
-
-## [9.3.0]
-* Refactor Deployment manifest to match the Statefulset manifest
-
-## [9.2.0]
-* Add a configurable Prometheus PodMonitor resource
-* Refactor Prometheus exporter's documentation and bump to version 0.17.2
-
-## [9.1.0]
-* Allow setting priorityClassName for StatefulSets
-
-## [9.0.1]
-* Adds timeoutSeconds parameter to probes
-
-## [9.0.0]
-* Update SonarQube logo
-* Bootstrap chart version 9.x.x dedicated to the future SonarQube 10.0
 ## [8.0.0]
 * Update SonarQube to 9.9.0
 * Bootstrap chart version 8.x.x dedicated to SonarQube 9.9 LTS
@@ -188,7 +32,6 @@ All changes to this chart will be documented in this file.
 
 ## [6.2.1]
 * Update the postgresql chart's repository
-
 
 ## [6.2.0]
 * Refactor Ingress to be compatible with static compatibitly test and 1.19 minimum requirement

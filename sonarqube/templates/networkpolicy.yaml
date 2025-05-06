@@ -4,7 +4,11 @@ apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata:
   name: {{ template "sonarqube.fullname" . }}-network-policy
-  labels: {{- include "sonarqube.labels" . | nindent 4 }}
+  labels:
+    app: {{ template "sonarqube.name" . }}
+    chart: {{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
 spec:
   podSelector:
     matchLabels:
@@ -20,7 +24,7 @@ spec:
               release: {{ .Release.Name }}
       ports:
         - port: {{ .Values.service.internalPort }}
-    {{ if .Values.prometheusExporter.enabled }}
+{{ if .Values.prometheusExporter.enabled }}
     - from:
         - namespaceSelector:
             matchLabels:
@@ -30,7 +34,7 @@ spec:
           protocol: TCP
         - port: {{ .Values.prometheusExporter.webBeanPort }}
           protocol: TCP
-    {{ end }}
+{{ end }}
   egress:
     - to:
         - namespaceSelector:
@@ -42,7 +46,7 @@ spec:
       ports:
         - port: 53
           protocol: UDP
-    {{- if .Values.postgresql.enabled }}
+{{- if .Values.postgresql.enabled }}
     - to:
         - podSelector:
             matchLabels:
@@ -50,7 +54,7 @@ spec:
       ports:
         - port: 5432
           protocol: TCP
-    {{- end }}
+{{- end }}
     - to:
         - ipBlock:
             cidr: 0.0.0.0/0
@@ -62,7 +66,11 @@ kind: NetworkPolicy
 apiVersion: networking.k8s.io/v1
 metadata:
   name: {{ template "sonarqube.fullname" . }}-database
-  labels: {{- include "sonarqube.labels" . | nindent 4 }}
+  labels:
+    app: {{ template "sonarqube.name" . }}
+    chart: {{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
 spec:
   podSelector:
     matchLabels:
@@ -88,21 +96,19 @@ spec:
           protocol: UDP
 {{- end }}
 
-{{- if and .Values.networkPolicy.enabled (or .Values.networkPolicy.additionalNetworkPolicies .Values.networkPolicy.additionalNetworkPolicys) }}
+{{- if and .Values.networkPolicy.enabled .Values.networkPolicy.additionalNetworkPolicys }}
 ---
 kind: NetworkPolicy
 apiVersion: networking.k8s.io/v1
 metadata:
   name: {{ template "sonarqube.fullname" . }}-additional-network-policy
-  labels: {{- include "sonarqube.labels" . | nindent 4 }}
+  labels:
+    app: {{ template "sonarqube.name" . }}
+    chart: {{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
 spec:
-{{- if.Values.networkPolicy.additionalNetworkPolicys -}}
 {{- with .Values.networkPolicy.additionalNetworkPolicys -}}
 {{ toYaml . | nindent 2 }}
-{{- end -}}
-{{- else -}}
-{{- with .Values.networkPolicy.additionalNetworkPolicies -}}
-{{ toYaml . | nindent 2 }}
-{{- end -}}
-{{- end -}}
+{{- end }}
 {{- end -}}

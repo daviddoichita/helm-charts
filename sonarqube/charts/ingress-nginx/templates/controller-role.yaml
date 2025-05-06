@@ -9,7 +9,7 @@ metadata:
     {{- toYaml . | nindent 4 }}
     {{- end }}
   name: {{ include "ingress-nginx.fullname" . }}
-  namespace: {{ include "ingress-nginx.namespace" . }}
+  namespace: {{ .Release.Namespace }}
 rules:
   - apiGroups:
       - ""
@@ -44,15 +44,12 @@ rules:
       - get
       - list
       - watch
-  # Omit Ingress status permissions if `--update-status` is disabled.
-  {{- if ne (index .Values.controller.extraArgs "update-status") "false" }}
   - apiGroups:
       - networking.k8s.io
     resources:
       - ingresses/status
     verbs:
       - update
-  {{- end }}
   - apiGroups:
       - networking.k8s.io
     resources:
@@ -62,18 +59,18 @@ rules:
       - list
       - watch
   - apiGroups:
-      - coordination.k8s.io
+      - ""
     resources:
-      - leases
+      - configmaps
     resourceNames:
-      - {{ include "ingress-nginx.controller.electionID" . }}
+      - {{ .Values.controller.electionID }}
     verbs:
       - get
       - update
   - apiGroups:
-      - coordination.k8s.io
+      - ""
     resources:
-      - leases
+      - configmaps
     verbs:
       - create
   - apiGroups:
@@ -83,12 +80,14 @@ rules:
     verbs:
       - create
       - patch
-  - apiGroups:
-      - discovery.k8s.io
-    resources:
-      - endpointslices
-    verbs:
-      - list
-      - watch
-      - get
+{{- if .Values.podSecurityPolicy.enabled }}
+  - apiGroups:      [{{ template "podSecurityPolicy.apiGroup" . }}]
+    resources:      ['podsecuritypolicies']
+    verbs:          ['use']
+    {{- with .Values.controller.existingPsp }}
+    resourceNames:  [{{ . }}]
+    {{- else }}
+    resourceNames:  [{{ include "ingress-nginx.fullname" . }}]
+    {{- end }}
+{{- end }}
 {{- end }}
