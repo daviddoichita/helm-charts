@@ -126,7 +126,7 @@ networkPolicy:
 
 # will be used as default for ingress path and probes path, will be injected in .Values.env as SONAR_WEB_CONTEXT
 # if .Values.env.SONAR_WEB_CONTEXT is set, this value will be ignored
-sonarWebContext: "/sonarqube"
+sonarWebContext: "/"
 
 # (DEPRECATED) please use ingress-nginx instead
 # nginx:
