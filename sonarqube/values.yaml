@@ -80,7 +80,7 @@ ingress:
   enabled: true
   # Used to create an Ingress record.
   hosts:
-    - name: sonarqube.ddragos.k8s.com
+    - name: sonarqube.ddragos.com
       # Different clouds or configurations might need /* as the default path
       path: /
       # For additional control over serviceName and servicePort
