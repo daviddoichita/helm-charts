@@ -79,7 +79,7 @@ global:
     configureCertmanager: true
     useNewIngressForCerts: false
     provider: nginx
-    # class:
+    class: nginx
     annotations: {}
     enabled: true
     tls: {}
@@ -918,7 +918,7 @@ global:
 ## End of global
 
 upgradeCheck:
-  enabled: true
+  enabled: false
   image: {}
     # repository:
     # tag:
@@ -968,7 +968,7 @@ certmanager:
 ## https://docs.gitlab.com/charts/architecture/decisions#nginx-ingress
 ## Installation & configuration of charts/ingress-nginx:
 nginx-ingress: &nginx-ingress
-  enabled: true
+  enabled: false
   tcpExternalConfig: "true"
   controller: &nginx-ingress-controller
     addHeaders:
@@ -1065,7 +1065,7 @@ haproxy:
 ## Installation & configuration of stable/prometheus
 ## See requirements.yaml for current version
 prometheus:
-  install: true
+  install: false
   rbac:
     create: true
   alertmanager:
@@ -1331,7 +1331,7 @@ shared-secrets:
 ## Installation & configuration of gitlab/gitlab-runner
 ## See requirements.yaml for current version
 gitlab-runner:
-  install: true
+  install: false
   rbac:
     create: true
   runners:
