@@ -114,7 +114,7 @@ service:
   http:
     type: ClusterIP
     port: 3000
-    clusterIP: None
+    clusterIP: 
     loadBalancerIP:
     nodePort:
     externalTrafficPolicy:
@@ -140,19 +140,18 @@ service:
   ## @param service.ssh.labels SSH service additional labels
   ## @param service.ssh.loadBalancerClass Loadbalancer class
   ssh:
-    type: ClusterIP
+    type: LoadBalancer
     port: 22
-    clusterIP: None
-    loadBalancerIP:
+    # clusterIP: None
+    # loadBalancerIP: "192.168.0.55" # This line is removed
     nodePort:
-    externalTrafficPolicy:
+    externalTrafficPolicy: Local
     externalIPs:
     ipFamilyPolicy:
     ipFamilies:
     hostPort:
     loadBalancerSourceRanges: []
-    annotations:
-      metallb.universe.tf/allow-shared-ip: test
+    annotations: {}
     labels: {}
     loadBalancerClass:
 
