@@ -38,7 +38,7 @@ runner:
     image: "docker:23.0.6-dind"
 
   # -- Gitea instance URL 
-  instanceURL: "http://gitea-http.gitea.svc.cluster.local:3000"
+  instanceURL: "http://gitea.ddragos.com"
   # -- Runner registration token
   runnerToken:
     # -- Set registration token value, if existing secret is specified this value is not used.
@@ -109,7 +109,7 @@ podLabels: {}
 podPriorityClassName: ""
 
 # -- Enable the hostNetwork option on Pods.
-podHostNetwork: false
+podHostNetwork: true
 
 # -- Allows you to overwrite the default. Only applied when using rootless container
 # [PodSecurityContext](https://kubernetes.io/docs/tasks/configure-pod-container/security-context/).
