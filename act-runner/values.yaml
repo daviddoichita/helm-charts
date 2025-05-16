@@ -38,7 +38,7 @@ runner:
     image: "docker:23.0.6-dind"
 
   # -- Gitea instance URL 
-  instanceURL: "http://gitea.gitea.svc.cluster.local"
+  instanceURL: "http://gitea-http.gitea.svc.cluster.local:3000"
   # -- Runner registration token
   runnerToken:
     # -- Set registration token value, if existing secret is specified this value is not used.
