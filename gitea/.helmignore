@@ -5,6 +5,7 @@
 # Common VCS dirs
 .git/
 .gitignore
+.gitmodules
 .bzr/
 .bzrignore
 .hg/
@@ -19,7 +20,22 @@
 .project
 .idea/
 *.tmproj
-# img folder
-img/
-# Changelog
-CHANGELOG.md
+.vscode/
+node_modules/
+.npmrc
+package.json
+package-lock.json
+.gitea/
+Makefile
+.markdownlintignore
+.markdownlint.yaml
+.drone.yml
+CONTRIBUTING.md
+unittests/
+.editorconfig
+.prettierignore
+.yamllint
+CODEOWNERS
+renovate.json5
+.commitlintrc.json
+.gitsv/
