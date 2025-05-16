@@ -1,0 +1,16 @@
+apiVersion: v2
+appVersion: 0.2.6
+description: Act runner for gitea actions
+home: https://charts.lmno.pk
+keywords:
+- gitea
+- actions
+- runner
+- cicd
+maintainers:
+- email: a.khaliq@outlook.my
+  name: Abdul Khaliq
+  url: https://github.com/kha7iq
+name: act-runner
+type: application
+version: 0.1.2
