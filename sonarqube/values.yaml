@@ -94,7 +94,7 @@ ingress:
     nginx.ingress.kubernetes.io/proxy-body-size: "64m"
 
   # Set the ingressClassName on the ingress record
-  ingressClassName: nginx
+  ingressClassName: traefik
 
 # Additional labels for Ingress manifest file
   # labels:
