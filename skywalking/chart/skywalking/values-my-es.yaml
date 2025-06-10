@@ -29,8 +29,8 @@ ui:
 elasticsearch:
   enabled: false
   config:               # For users of an existing elasticsearch cluster,takes effect when `elasticsearch.enabled` is false
-    host: elasticsearch-es-http
+    host: elasticsearch-master
     port:
       http: 9200
-    user: "xxx"         # [optional]
-    password: "xxx"     # [optional]
+    user: "elastic"         # [optional]
+    password: "Rxl8NWOUhvNTXKq5"     # [optional]
