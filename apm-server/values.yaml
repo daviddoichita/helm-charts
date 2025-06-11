@@ -4,11 +4,6 @@ apmConfig:
   apm-server.yml: |
     apm-server:
       host: "0.0.0.0:8200"
-      ssl.enabled: false
-      ssl.certificate_authorities:
-        - /usr/share/apm-server/config/certs/ca.crt
-      ssl.certificate: "/usr/share/apm-server/config/certs/tls.crt"
-      ssl.key: "/usr/share/apm-server/config/certs/tls.key"
 
     queue: {}
 
@@ -18,7 +13,6 @@ apmConfig:
       password: "${ELASTICSEARCH_PASSWORD}"
       ## If SSL is enabled
       protocol: https
-      ssl.enabled: true
       ssl.certificate_authorities:
         - /usr/share/apm-server/config/certs/ca.crt
       ssl.certificate: "/usr/share/apm-server/config/certs/tls.crt"
@@ -179,7 +173,7 @@ ingress:
   #      - chart-example.local
 
 service:
-  type: ClusterIP
+  type: LoadBalancer
   loadBalancerIP: ""
   port: 8200
   nodePort: ""
